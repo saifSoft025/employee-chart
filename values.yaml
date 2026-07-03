@@ -1,0 +1,82 @@
+backend:
+  replicaCount: 1
+
+  image:
+    repository: saifali3366/employee-management-backend
+    tag: latest
+
+  service:
+    port: 5000
+
+  env:
+    port: 5000
+    dbHost: postgres-service
+    dbPort: 5432
+    dbName: employeedb
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+frontend:
+  replicaCount: 1
+
+  image:
+    repository: saifali3366/employee-management-frontend
+    tag: latest
+
+  service:
+    port: 80
+
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+
+    limits:
+      cpu: "250m"
+      memory: "256Mi"
+
+postgres:
+  replicaCount: 1
+
+  image:
+    repository: postgres
+    tag: "16-alpine"
+
+  service:
+    port: 5432
+
+  storage:
+    claimName: postgres-pvc
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+ingress:
+  enabled: true
+  host: employee.local
+
+
+
+config:
+  PORT: "5000"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_NAME: "employeedb"
+
+secret:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: saif12
+  POSTGRES_DB: employeedb

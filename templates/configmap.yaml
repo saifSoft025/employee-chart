@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: app-config
+
+data:
+  PORT: "{{ .Values.config.PORT }}"
+  DB_HOST: "{{ .Values.config.DB_HOST }}"
+  DB_PORT: "{{ .Values.config.DB_PORT }}"
+  DB_NAME: "{{ .Values.config.DB_NAME }}"

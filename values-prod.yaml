@@ -1,0 +1,16 @@
+backend:
+  replicaCount: 3
+
+frontend:
+  replicaCount: 2
+
+backend:
+  image:
+    tag: latest
+
+frontend:
+  image:
+    tag: latest
+
+ingress:
+  host: employee.com
