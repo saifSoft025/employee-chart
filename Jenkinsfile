@@ -21,12 +21,6 @@ pipeline {
             }
         }
 
-        stage('Ensure Namespace') {
-            steps {
-                bat 'kubectl create namespace %NAMESPACE% --dry-run=client -o yaml | kubectl apply -f -'
-            }
-        }
-
         stage('Helm Lint') {
             steps {
                 bat 'helm lint %CHART_PATH%'
