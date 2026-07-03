@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         RELEASE_NAME = "employee-app"
-        CHART_PATH = "."
         NAMESPACE = "default"
+        CHART_PATH = "."
     }
 
     stages {
@@ -12,13 +12,19 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/YOUR_GITHUB_USERNAME/employee-management-helm.git'
+                    url: 'https://github.com/saifSoft025/employee-management-helm.git'
             }
         }
 
         stage('Helm Version') {
             steps {
                 bat 'helm version'
+            }
+        }
+
+        stage('Kubectl Version') {
+            steps {
+                bat 'kubectl version --client'
             }
         }
 
@@ -31,8 +37,7 @@ pipeline {
         stage('Helm Upgrade') {
             steps {
                 bat '''
-                helm upgrade --install %RELEASE_NAME% %CHART_PATH% ^
-                --namespace %NAMESPACE%
+                helm upgrade --install %RELEASE_NAME% %CHART_PATH% --namespace %NAMESPACE%
                 '''
             }
         }
@@ -49,11 +54,15 @@ pipeline {
     post {
 
         success {
-            echo '✅ Helm deployment completed successfully.'
+            echo 'Helm deployment completed successfully.'
         }
 
         failure {
-            echo '❌ Helm deployment failed.'
+            echo 'Helm deployment failed.'
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
