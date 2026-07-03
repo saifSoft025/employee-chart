@@ -9,13 +9,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/saifSoft025/employee-management-helm.git'
-            }
-        }
-
         stage('Helm Version') {
             steps {
                 bat 'helm version'
@@ -28,6 +21,12 @@ pipeline {
             }
         }
 
+        stage('Ensure Namespace') {
+            steps {
+                bat 'kubectl create namespace %NAMESPACE% --dry-run=client -o yaml | kubectl apply -f -'
+            }
+        }
+
         stage('Helm Lint') {
             steps {
                 bat 'helm lint %CHART_PATH%'
@@ -36,9 +35,7 @@ pipeline {
 
         stage('Helm Upgrade') {
             steps {
-                bat '''
-                helm upgrade --install %RELEASE_NAME% %CHART_PATH% --namespace %NAMESPACE%
-                '''
+                bat 'helm upgrade --install %RELEASE_NAME% %CHART_PATH% --namespace %NAMESPACE%'
             }
         }
 
@@ -52,7 +49,6 @@ pipeline {
     }
 
     post {
-
         success {
             echo 'Helm deployment completed successfully.'
         }
