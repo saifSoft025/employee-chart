@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    parameters {
+        string(
+            name: 'IMAGE_TAG',
+            defaultValue: 'latest',
+            description: 'Docker Image Tag'
+        )
+    }
+
     environment {
         RELEASE_NAME = "employee-app"
         NAMESPACE = "default"
@@ -37,7 +45,11 @@ pipeline {
 
         stage('Helm Upgrade') {
             steps {
-                bat 'helm upgrade --install %RELEASE_NAME% %CHART_PATH% --namespace %NAMESPACE%'
+                bat """
+                helm upgrade --install %RELEASE_NAME% %CHART_PATH% ^
+                --namespace %NAMESPACE% ^
+                --set backend.image.tag=%IMAGE_TAG%
+                """
             }
         }
 
@@ -51,8 +63,10 @@ pipeline {
     }
 
     post {
+
         success {
-            echo 'Helm deployment completed successfully.'
+            echo "Helm deployment completed successfully."
+            echo "Backend Image Tag: ${params.IMAGE_TAG}"
         }
 
         failure {
