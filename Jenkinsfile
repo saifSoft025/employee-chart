@@ -5,6 +5,7 @@ pipeline {
         RELEASE_NAME = "employee-app"
         NAMESPACE = "default"
         CHART_PATH = "."
+        KUBECONFIG = "C:\\Users\\saifa\\.kube\\config"
     }
 
     stages {
@@ -18,6 +19,13 @@ pipeline {
         stage('Kubectl Version') {
             steps {
                 bat 'kubectl version --client'
+            }
+        }
+
+        stage('Check Kubernetes') {
+            steps {
+                bat 'kubectl config current-context'
+                bat 'kubectl get nodes'
             }
         }
 
