@@ -3,9 +3,15 @@ pipeline {
 
     parameters {
         string(
-            name: 'IMAGE_TAG',
+            name: 'BACKEND_IMAGE_TAG',
             defaultValue: 'latest',
-            description: 'Docker Image Tag'
+            description: 'Backend Docker Image Tag'
+        )
+
+        string(
+            name: 'FRONTEND_IMAGE_TAG',
+            defaultValue: 'latest',
+            description: 'Frontend Docker Image Tag'
         )
     }
 
@@ -48,7 +54,8 @@ pipeline {
                 bat """
                 helm upgrade --install %RELEASE_NAME% %CHART_PATH% ^
                 --namespace %NAMESPACE% ^
-                --set backend.image.tag=%IMAGE_TAG%
+                --set backend.image.tag=%BACKEND_IMAGE_TAG% ^
+                --set frontend.image.tag=%FRONTEND_IMAGE_TAG%
                 """
             }
         }
@@ -66,7 +73,8 @@ pipeline {
 
         success {
             echo "Helm deployment completed successfully."
-            echo "Backend Image Tag: ${params.IMAGE_TAG}"
+            echo "Backend Image Tag: ${params.BACKEND_IMAGE_TAG}"
+            echo "Frontend Image Tag: ${params.FRONTEND_IMAGE_TAG}"
         }
 
         failure {
