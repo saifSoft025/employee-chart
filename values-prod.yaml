@@ -1,15 +1,10 @@
-backend:
-  replicaCount: 3
+secret:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: saif12
+  POSTGRES_DB: employeedb
 
-  image:
-    repository: 378686993952.dkr.ecr.ap-south-1.amazonaws.com/backend
-    tag: latest
-
-frontend:
-  replicaCount: 2
-
-  image:
-    tag: latest
-
-ingress:
-  host: employee.com
+config:
+  PORT: "5000"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_NAME: "employeedb"
