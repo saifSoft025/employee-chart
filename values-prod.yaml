@@ -1,10 +1,48 @@
-secret:
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: saif12
-  POSTGRES_DB: employeedb
+backend:
+  replicaCount: 3
+
+  image:
+    repository: 378686993952.dkr.ecr.ap-south-1.amazonaws.com/backend
+    tag: latest
+
+  service:
+    port: 5000
+
+frontend:
+  replicaCount: 2
+
+  image:
+    repository: saifali3366/employee-management-frontend
+    tag: latest
+
+  service:
+    port: 80
+
+postgres:
+  replicaCount: 1
+
+  image:
+    repository: postgres
+    tag: "16-alpine"
+
+  service:
+    port: 5432
+
+  storage:
+    claimName: postgres-pvc
+    storageClass: gp2
+
+ingress:
+  enabled: true
+  host: employee.com
 
 config:
   PORT: "5000"
   DB_HOST: "postgres-service"
   DB_PORT: "5432"
   DB_NAME: "employeedb"
+
+secret:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: saif12
+  POSTGRES_DB: employeedb
