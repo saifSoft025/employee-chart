@@ -44,6 +44,10 @@ spec:
                   name: postgres-secret
                   key: POSTGRES_DB
 
+            # Fix AWS EBS lost+found issue
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
