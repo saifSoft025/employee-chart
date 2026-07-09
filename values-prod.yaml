@@ -1,14 +1,13 @@
 backend:
   replicaCount: 3
 
-frontend:
-  replicaCount: 2
-
-backend:
   image:
+    repository: 378686993952.dkr.ecr.ap-south-1.amazonaws.com/backend
     tag: latest
 
 frontend:
+  replicaCount: 2
+
   image:
     tag: latest
 
