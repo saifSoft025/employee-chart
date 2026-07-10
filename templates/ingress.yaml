@@ -4,25 +4,49 @@ kind: Ingress
 metadata:
   name: employee-ingress
 
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+
+    # HTTP listener
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+
+    # Health check
+    alb.ingress.kubernetes.io/healthcheck-path: /api/employees
+    alb.ingress.kubernetes.io/healthcheck-port: "5000"
+
 spec:
-  ingressClassName: nginx
+
+  ingressClassName: alb
 
   rules:
-    - host: employee.local
+
+    - host: employee.com
+
       http:
+
         paths:
+
+          # Frontend
           - path: /
             pathType: Prefix
+
             backend:
               service:
                 name: frontend-service
+
                 port:
                   number: 80
 
+
+          # Backend API
           - path: /api
+
             pathType: Prefix
+
             backend:
               service:
                 name: backend-service
+
                 port:
                   number: 5000
