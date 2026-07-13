@@ -53,19 +53,19 @@ spec:
                   name: postgres-secret
                   key: POSTGRES_PASSWORD
 
-          livenessProbe:
-            httpGet:
-              path: /api/employees
-              port: {{ .Values.backend.service.port }}
-            initialDelaySeconds: 10
-            periodSeconds: 10
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/employees
+          #     port: {{ .Values.backend.service.port }}
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
 
-          readinessProbe:
-            httpGet:
-              path: /api/employees
-              port: {{ .Values.backend.service.port }}
-            initialDelaySeconds: 5
-            periodSeconds: 5
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/employees
+          #     port: {{ .Values.backend.service.port }}
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 10
 
           resources:
             requests:
