@@ -80,5 +80,5 @@ config:
 
 secret:
   POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: "V7#qL2xP9!mR4$kT8&n"
+  POSTGRES_PASSWORD: "Emp!2026#RDS$SecurePg"
   POSTGRES_DB: "company-db-1"
