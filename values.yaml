@@ -1,16 +1,20 @@
-postgres:
-  replicaCount: 1
+backend:
+  replicaCount: 3
 
   image:
-    repository: postgres
-    tag: "16-alpine"
+    repository: saifali3366/employee-management-backend
+    tag: "new"
 
   service:
-    port: 5432
+    port: 5000
 
-  storage:
-    claimName: postgres-pvc
-    storageClass: gp2
+  env:
+    port: "5000"
+
+    # Amazon RDS PostgreSQL
+    dbHost: employee-db.cle24u8cylpp.ap-south-1.rds.amazonaws.com
+    dbPort: "5432"
+    dbName: employee_db
 
   resources:
     requests:
