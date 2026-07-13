@@ -14,7 +14,7 @@ backend:
     # Amazon RDS PostgreSQL
     dbHost: company-db-1.cle24u8cylpp.ap-south-1.rds.amazonaws.com
     dbPort: "5432"
-    dbName: company-db-1
+    dbName: postgres
 
   resources:
     requests:
