@@ -6,12 +6,11 @@ backend:
     tag: "new"
 
   service:
+    type: ClusterIP
     port: 5000
 
   env:
     port: "5000"
-
-    # Amazon RDS PostgreSQL
     dbHost: company-db-1.cle24u8cylpp.ap-south-1.rds.amazonaws.com
     dbPort: "5432"
     dbName: postgres
@@ -20,7 +19,62 @@ backend:
     requests:
       cpu: "100m"
       memory: "128Mi"
-
     limits:
       cpu: "500m"
       memory: "512Mi"
+
+frontend:
+  replicaCount: 2
+
+  image:
+    repository: saifali3366/employee-management-frontend
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+postgres:
+  replicaCount: 1
+
+  image:
+    repository: postgres
+    tag: "16"
+
+  service:
+    type: ClusterIP
+    port: 5432
+
+  storage:
+    claimName: postgres-pvc
+    storageClass: gp3
+
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+config:
+  PORT: "5000"
+  DB_HOST: company-db-1.cle24u8cylpp.ap-south-1.rds.amazonaws.com
+  DB_PORT: "5432"
+  DB_NAME: postgres
+
+secret:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: "YOUR_DATABASE_PASSWORD"
+  POSTGRES_DB: postgres
+  DB_HOST: company-db-1.cle24u8cylpp.ap-south-1.rds.amazonaws.com
+  DB_PORT: "5432"
+  JWT_SECRET: "your_jwt_secret"
